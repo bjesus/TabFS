@@ -21,10 +21,10 @@ jobs:
 
     steps:
     - name: Declare some variables
-    id: vars
-    shell: bash
-    run: |
-      echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
+      id: vars
+      shell: bash
+      run: |
+        echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
     - uses: actions/checkout@v2
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v1
