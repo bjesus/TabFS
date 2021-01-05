@@ -31,5 +31,5 @@ jobs:
     - name: Archive code coverage results
       uses: actions/upload-artifact@v2
       with:
-        name: tabfs-${GITHUB_SHA}
+        name: tabfs-extension
         path: /home/runner/work/TabFS/TabFS/web-ext-artifacts/tabfs.zip
