@@ -29,7 +29,7 @@ jobs:
     - run: web-ext build -s extension
 
     - name: Archive code coverage results
-      uses: actions/setup-node@v1
+      uses: actions/upload-artifact@v2
       with:
         name: extension.zip
-        path: web-ext-artifacts/tabfs-1.0.zip
+        path: /home/runner/work/TabFS/TabFS/web-ext-artifacts/tabfs-1.0.zip
