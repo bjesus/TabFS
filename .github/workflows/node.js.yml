@@ -31,7 +31,7 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
     - run: npm install --global web-ext
-    - run: web-ext build -s extension -n tabfs
+    - run: web-ext build -s extension -n tabfs.zip
 
     - name: Archive code coverage results
       uses: actions/upload-artifact@v2
