@@ -40,3 +40,12 @@ jobs:
         with:
           name: tabfs
           path: tabfs.tar
+
+      - name: Upload zip
+        uses: actions/upload-artifact@v2
+        with:
+          name: tabfs
+          path: |
+            /home/runner/work/TabFS/TabFS/fs/tabfs
+            /home/runner/work/TabFS/TabFS/install.sh
+            /home/runner/work/TabFS/TabFS/web-ext-artifacts/tabfs.zip
