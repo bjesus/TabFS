@@ -1,0 +1,42 @@
+# This workflow will do a clean install of node dependencies, build the source code and run tests across different versions of node
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
+
+name: Build C filesystem
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [15.x]
+
+    steps:
+      - uses: actions/checkout@master
+        with:
+          fetch-depth: 1
+      - name: Install libfuse-dev
+        run: sudo apt-get install libfuse-dev
+      - name: Compile C Extension
+        run: cd fs && make
+      - name: Load Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Install Web-ext
+        run: npm install --global web-ext
+      - name: Build browser extension
+        run: web-ext build -s extension -n tabfs.zip
+      - name: Create tarball
+        run: tar -cvf tabs.tar /home/runner/work/TabFS/TabFS/fs/tabfs /home/runner/work/TabFS/TabFS/install.sh /home/runner/work/TabFS/TabFS/web-ext-artifacts/tabfs.zip
+
+      - name: 'Upload tarball'
+        uses: actions/upload-artifact@v2
+        with:
+          name: tabfs
+          path: tabfs.tar
