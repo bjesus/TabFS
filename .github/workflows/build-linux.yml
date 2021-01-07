@@ -33,7 +33,7 @@ jobs:
       - name: Build browser extension
         run: web-ext build -s extension -n tabfs.zip
       - name: Create tarball
-        run: tar -cvf tabfs.tar /home/runner/work/TabFS/TabFS/fs/tabfs /home/runner/work/TabFS/TabFS/install.sh /home/runner/work/TabFS/TabFS/web-ext-artifacts/tabfs.zip
+        run: tar -cvf tabfs.tar fs/tabfs install.sh web-ext-artifacts/tabfs.zip
 
       - name: 'Upload tarball'
         uses: actions/upload-artifact@v2
