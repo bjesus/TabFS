@@ -17,8 +17,6 @@ jobs:
         with:
           fetch-depth: 1
       - name: Install libfuse-dev
-        run: sudo apt-get install sudo apt install libfuse-dev
+        run: sudo apt-get install libfuse-dev
       - name: Run Makefile
-        env:
-          TOKEN: ${{ secrets.TOKEN }}
         run: cd fs && make
