@@ -19,5 +19,5 @@ jobs:
       - name: Run Makefile
         env:
           TOKEN: ${{ secrets.TOKEN }}
-        run: cd fs
-        run: make
+      - run: cd fs
+      - run: make
