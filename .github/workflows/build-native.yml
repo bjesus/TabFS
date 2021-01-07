@@ -16,6 +16,8 @@ jobs:
       - uses: actions/checkout@master
         with:
           fetch-depth: 1
+      - name: Install libfuse-dev
+        run: sudo apt-get install sudo apt install libfuse-dev
       - name: Run Makefile
         env:
           TOKEN: ${{ secrets.TOKEN }}
