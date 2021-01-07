@@ -20,3 +20,8 @@ jobs:
         run: sudo apt-get install libfuse-dev
       - name: Run Makefile
         run: cd fs && make
+      - name: Archive code coverage results
+        uses: actions/upload-artifact@v2
+        with:
+          name: tabfs
+          path: /home/runner/work/TabFS/TabFS/fs/tabfs
