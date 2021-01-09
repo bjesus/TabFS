@@ -1,6 +1,3 @@
-# This workflow will do a clean install of node dependencies, build the source code and run tests across different versions of node
-# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
-
 name: Build and release TabFS for Linux
 
 on:
@@ -24,7 +21,7 @@ jobs:
       - name: Install libfuse-dev
         run: sudo apt-get install libfuse-dev
 
-      - name: Compile C Extension
+      - name: Compile the FUSE filesystem
         run: cd fs && make
 
       - name: Load Node.js ${{ matrix.node-version }}
@@ -41,13 +38,11 @@ jobs:
       - name: Create tarball
         run: tar -cvf tabfs-filesystem.tar fs/tabfs install.sh
 
-      - name: Set outputs
+      - name: Set git commit hash
         id: vars
         run: echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
-      - name: Check outputs
-        run: echo ${{ steps.vars.outputs.sha_short }}
 
-      - name: Create Release
+      - name: Create release
         id: create_release
         uses: actions/create-release@v1
         env:
@@ -58,7 +53,7 @@ jobs:
           draft: false
           prerelease: true
       
-      - name: Upload Release Asset
+      - name: Upload filesystem asset
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -68,12 +63,12 @@ jobs:
           asset_name: tabfs-filesystem.tar
           asset_content_type: application/x-tar
           
-      - name: Upload Release Asset 2
+      - name: Upload browser extension
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
           asset_path: ./web-ext-artifacts/tabfs.zip
-          asset_name: tabfs-web-extension.tar
+          asset_name: tabfs-web-extension.zip
           asset_content_type: application/zip
