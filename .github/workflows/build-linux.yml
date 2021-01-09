@@ -46,6 +46,8 @@ jobs:
         with:
           name: tabfs
           path: tabfs.tar
+      - name: Say my name
+        run: echo ${GITHUB_SHA::8}
 
       - name: Create Release
         id: create_release
