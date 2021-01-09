@@ -39,13 +39,7 @@ jobs:
         run: web-ext build -s extension -n tabfs.zip
       
       - name: Create tarball
-        run: tar -cvf tabfs.tar fs/tabfs install.sh web-ext-artifacts/tabfs.zip
-
-      - name: 'Upload tarball'
-        uses: actions/upload-artifact@v2
-        with:
-          name: tabfs
-          path: tabfs.tar
+        run: tar -cvf tabfs-filesystem.tar fs/tabfs install.sh
 
       - name: Set outputs
         id: vars
@@ -65,12 +59,21 @@ jobs:
           prerelease: true
       
       - name: Upload Release Asset
-        id: upload-release-asset 
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
-          asset_path: ./tabfs.tar
-          asset_name: tabfs.tar
+          asset_path: ./tabfs-filesystem.tar
+          asset_name: tabfs-filesystem.tar
           asset_content_type: application/x-tar
+          
+      - name: Upload Release Asset 2
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
+          asset_path: ./web-ext-artifacts/tabfs.zip
+          asset_name: tabfs-web-extension.tar
+          asset_content_type: application/zip
